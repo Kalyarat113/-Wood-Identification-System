@@ -28,7 +28,7 @@ conn = pymysql.connect(
 )
 
 # model = load_model('VGG16.keras')
-model = load_model(r'VGG16.keras')
+model = load_model(r'VGG16_model_fold_3.h5')
 
 class PredictionForm(FlaskForm):
     # InputRequired() เป็นตัวตรวจสอบว่าฟิลด์ว่างเปล่าหรือไม่
