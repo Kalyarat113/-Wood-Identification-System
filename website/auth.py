@@ -333,9 +333,12 @@ def update_profile():
     first_name = request.form.get('firstName')
     last_name = request.form.get('lastName')
     role_id = request.form.get('role')
+
+    change_password = request.form.get('changePasswordCheckbox')
     password = request.form.get('password')
     new_password = request.form.get('newPassword')
     confirm_new_password = request.form.get('confirmNewPassword')
+
 
     errors = []
 
@@ -350,32 +353,20 @@ def update_profile():
     elif len(email) < G_LEN_EMAIL or len(email) > NG_LEN_EMAIL:
         errors.append('Email ต้องมีขนาดตั้งแต่ 4 - 50 ตัวอักษร')
         
-
-    # # ตรวจสอบรหัสผ่านใหม่และการยืนยันรหัสผ่าน
-    # if password:
-    #     if not check_password_hash(user.password, password):
-    #         errors.append('รหัสผ่านเดิมไม่ถูกต้อง')
-    #     elif new_password and confirm_new_password:
-    #         if new_password != confirm_new_password:
-    #             errors.append('รหัสผ่านใหม่และยืนยันรหัสผ่านไม่ตรงกัน')
-    #         elif len(new_password) < G_LEN_PWORD or len(new_password) > NG_LEN_PWORD:
-    #             errors.append('Password ต้องมีขนาดตั้งแต่ 7 - 50 ตัวอักษร')
-    #     else:
-    #         errors.append('กรุณากรอกรหัสผ่านใหม่และยืนยันรหัสผ่าน')
-
-    # ตรวจสอบรหัสผ่านเดิม
-    if not password:
-        errors.append('กรุณากรอกรหัสผ่านเดิม')
-    elif not check_password_hash(user.password, password):
-        errors.append('รหัสผ่านเดิมไม่ถูกต้อง')
+    # ตรวจสอบรหัสผ่านเดิมถ้ามีการติ๊ก changePasswordCheckbox
+    if change_password:
+        if not password:
+            errors.append('กรุณากรอกรหัสผ่านเดิม')
+        elif not check_password_hash(user.password, password):
+            errors.append('รหัสผ่านเดิมไม่ถูกต้อง')
 
     # ตรวจสอบรหัสผ่านใหม่และการยืนยันรหัสผ่าน
-    if new_password and confirm_new_password:
+    if change_password and new_password and confirm_new_password:
         if new_password != confirm_new_password:
             errors.append('รหัสผ่านใหม่และยืนยันรหัสผ่านไม่ตรงกัน')
         elif len(new_password) < 7 or len(new_password) > 50:
             errors.append('Password ต้องมีขนาดตั้งแต่ 7 - 50 ตัวอักษร')
-    else:
+    elif change_password:
         errors.append('กรุณากรอกรหัสผ่านใหม่และยืนยันรหัสผ่าน')
 
     if errors:
