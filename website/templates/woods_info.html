@@ -32,21 +32,6 @@
   .compare-button-box li {
     margin-left: 10px;
   }
-  /* .compare-button-box button {
-    color: white;
-    background-color: transparent;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-  } */
-  /* .btn {
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-  } */
   .btn-success {
     background-color: #1c8835;
   }
@@ -57,9 +42,6 @@
     outline: none;
     box-sizing: border-box;
   }
-
-
-
 </style>
 {% endblock %}
 {% block content %}
@@ -69,27 +51,21 @@
 </p>
 
 <div class="container  mt-4">
-  <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 justify-content-center"> -->
-    <form method="POST" action="{{ url_for('views_blueprint.woods_info') }}">
-      <div class="row g-3 justify-content-center">
-        <div class="col-3 justify-content-center">
-          <!-- <div class="form-outline" data-mdb-input-init> -->
-            <input type="text" name="search" class="form-control" placeholder="Search wood name" style="width: 350px; height: 40px; font-size: 1.25rem;border-radius: 5px;" />
-        </div>
-        <div class="col-1">
-          <button id="search-button" type="submit" class="btn btn-primary" style="height: 40px; font-size: 1.25rem;border-radius: 5px;">
-            <i class="fas fa-search"></i>
-          </button>
-          
-        </div>
-        <div class="col-1">
-          <button type="button" class="btn btn-secondary" onclick="window.location.href='/woods-info'" style="height: 40px; font-size: 1.25rem;">Reset</button>
-        
-        </div>
+  <form method="POST" action="{{ url_for('views_blueprint.woods_info') }}">
+    <div class="row g-3 justify-content-center">
+      <div class="col-3">
+        <input type="text" name="search" class="form-control" placeholder="Search wood name" style="width: 350px; height: 40px; font-size: 1.25rem; border-radius: 5px;" value="{{ request.form.get('search', '') }}" /> <!-- แสดงค่าคำค้นหาที่ส่งกลับมา -->
       </div>
-      
-    </form>
-  <!-- </div> -->
+      <div class="col-1">
+        <button id="search-button" type="submit" class="btn btn-primary" style="height: 40px; font-size: 1.25rem; border-radius: 5px;">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/woods-info'" style="height: 40px; font-size: 1.25rem;">Reset</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <form id="compare_form" method="POST" action="{{ url_for('views_blueprint.compare_woods') }}">
@@ -98,32 +74,22 @@
       {%  for wood, wood_data in woods %}
       <div class="col mx-auto" style="margin-bottom: 20px;">
         <div class="card shadow-sm">
-
-              <a href="{{ url_for('views_blueprint.wood_detail', wood_id=wood.wood_id) }}">
-                <img src="{{ url_for('static', filename='tree/' + wood_data['รูปต้น']) }}" 
-                     class="bd-placeholder-img card-img-top" style="height: 500px;" alt="Tree Image">
-              </a>
-              
+          <a href="{{ url_for('views_blueprint.wood_detail', wood_id=wood.wood_id) }}">
+            <img src="{{ url_for('static', filename='tree/' + wood_data['รูปต้น']) }}" class="bd-placeholder-img card-img-top" style="height: 500px;" alt="Tree Image">
+          </a>
           <div class="card-body text-center mt-3">
-            <!-- <p class="card-text text-center"> -->
-              <a style="text-decoration: none; color: inherit;"
-                href="{{ url_for('views_blueprint.wood_detail', wood_id=wood.wood_id) }}">
-                <h6 style="font-size: 20px;">{{ wood_data['ชื่อ'] }}</h6>
-
-                <div class="text-muted" style="font-size: 20px;">
-                  {% set scientific_name = wood_data['ชื่อวิทยาศาสตร์'].split(' ') %}
-                  <i>{{ scientific_name[0] }} {{ scientific_name[1] }}</i> {% for word in
-                  scientific_name[2:] %}{{ word }} {% endfor %}
-                </div>
-              </a>
-            <!-- </p> -->
+            <a style="text-decoration: none; color: inherit;" href="{{ url_for('views_blueprint.wood_detail', wood_id=wood.wood_id) }}">
+              <h6 style="font-size: 20px;">{{ wood_data['ชื่อ'] }}</h6>
+              <div class="text-muted" style="font-size: 20px;">
+                {% set scientific_name = wood_data['ชื่อวิทยาศาสตร์'].split(' ') %}
+                <i>{{ scientific_name[0] }} {{ scientific_name[1] }}</i> {% for word in scientific_name[2:] %}{{ word }} {% endfor %}
+              </div>
+            </a>
             <hr>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <input class="form-check-input" type="checkbox" name="compare_woods" value="{{ wood.wood_id }}" 
-                  onclick="handleCompareCheckbox(this)"
-                  style="width: 20px; height: 20px; ">
-                  <label style="font-size: 18px;">&nbsp;Compare</label>
+                <input class="form-check-input" type="checkbox" name="compare_woods" value="{{ wood.wood_id }}" onclick="handleCompareCheckbox(this)" style="width: 20px; height: 20px; ">
+                <label style="font-size: 18px;">&nbsp;Compare</label>
               </div>
             </div>
           </div>
@@ -151,7 +117,7 @@
 
 <script>
   window.onload = function() {
-  clearCompare(); // เคลียร์รายการเปรียบเทียบไม้เมื่อโหลดหน้า
+    clearCompare(); // เคลียร์รายการเปรียบเทียบไม้เมื่อโหลดหน้า
   };
 
   function handleCompareCheckbox(checkbox) {
@@ -160,7 +126,7 @@
     var maxCompareCount = 3; // Maximum number of items allowed for comparison
     
     if (checkbox.checked) {
-        // Check if the maximum number of items is already selected
+      // Check if the maximum number of items is already selected
       if (parseInt(compareCount.innerText) >= maxCompareCount) {
         // Display a message indicating the maximum limit is reached
         alert("You can only compare up to 3 items at a time.");
@@ -203,38 +169,6 @@
   function submitCompare() {
     document.getElementById("compare_form").submit();
   }
-
-
-
-//   // เมื่อมีการพิมพ์ในช่องค้นหา
-// document.querySelector('input[name="search"]').addEventListener('input', function() {
-//   var searchValue = this.value.trim().toLowerCase(); // รับค่าข้อความและทำให้เป็นตัวพิมพ์เล็กทั้งหมดและตัดช่องว่างด้านหน้าและด้านหลัง
-  
-//   // ดึงรายการไม้ทั้งหมด
-//   var woods = document.querySelectorAll('.card');
-  
-//   // สร้างอาร์เรย์เปล่าเพื่อเก็บรายการไม้ที่ตรงกับการค้นหา
-//   var matchingWoods = [];
-  
-//   // วนลูปตรวจสอบรายการไม้แต่ละรายการ
-//   woods.forEach(function(wood) {
-//     var woodName = wood.querySelector('a').textContent.trim().toLowerCase(); // รับชื่อไม้และทำให้เป็นตัวพิมพ์เล็กทั้งหมดและตัดช่องว่างด้านหน้าและด้านหลัง
-      
-//     // ถ้าชื่อไม้ตรงกับคำค้นหา ให้เพิ่มรายการไม้นี้เข้าไปในอาร์เรย์ matchingWoods
-//     if (woodName.includes(searchValue)) {
-//       matchingWoods.push(wood);
-//     } else {
-//       wood.style.display = 'none'; // ถ้าไม่ตรงกับคำค้นหาให้ซ่อนรายการไม้นั้น
-//     }
-//   });
-
-//   // วนลูปเรียงลำดับและแสดงรายการไม้ที่ตรงกับการค้นหา
-//   matchingWoods.forEach(function(wood) {
-//     wood.style.display = 'block';
-//   });
-// });
-
-
 </script>
 
 {% endblock %}
