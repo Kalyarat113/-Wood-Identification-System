@@ -1,5 +1,6 @@
 # คู่มือในการติดตั้งระบบจำแนกชนิดไม้จากภาพถ่ายตัดขวาง (Cross-Section Wood Identification System)
 
+### รูปdatasetภาพถ่ายตัดขวางจากสไลด์ของพันธุ์ไม้ชนิดต่างๆ สำหรับทดสอบระบบ: https://drive.google.com/drive/folders/1_VZ0FmBMpfTDudL0kNvfZnNils6JnuLk?usp=sharing
 
 ตรวจสอบให้แน่ใจว่าคุณได้ติดตั้งโปรแกรมดังต่อไปนี้ในเครื่องคอมพิวเตอร์ของคุณ:
 - [Git](https://git-scm.com/downloads)
